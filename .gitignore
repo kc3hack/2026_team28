@@ -42,7 +42,7 @@
 ExportedObj/
 .consulo/
 *.csproj
-#*.unityproj
+*.unityproj
 *.sln
 *.suo
 *.tmp
@@ -70,15 +70,15 @@ mono_crash.*
 # Builds
 *.apk
 *.aab
-#*.unitypackage
-#*.unitypackage.meta
+*.unitypackage
+*.unitypackage.meta
 *.app
 
 # Crashlytics generated file
 crashlytics-build.properties
 
 # TestRunner generated files
-#InitTestScene*.unity*
+InitTestScene*.unity*
 
 # Addressables default ignores, before user customizations
 /ServerData
@@ -97,7 +97,7 @@ crashlytics-build.properties
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
 # Auto-generated scenes by play mode tests
-#/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 # Mac
 .DS_Store
