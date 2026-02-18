@@ -101,3 +101,10 @@ InitTestScene*.unity*
 
 # Mac
 .DS_Store
+
+# Unity specific ignores
+Library/
+Temp/
+Logs/
+Obj/
+MemoryCaptures/
