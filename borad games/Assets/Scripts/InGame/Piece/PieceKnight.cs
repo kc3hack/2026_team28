@@ -10,6 +10,5 @@ public class PieceKnight : GamePiece
         int forwardY = (player == PlayerType.Player1) ? -dy : dy;
         // 桂：2つ前、左右1つ
         return (forwardX == -2 && Mathf.Abs(forwardY) == 1);
-
     }
 }

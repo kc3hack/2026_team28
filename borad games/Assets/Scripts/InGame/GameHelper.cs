@@ -52,10 +52,12 @@ public static class GameHelper
 
         int checkX = fromX + stepX;
         int checkY = fromY + stepY;
-
+        int safetyCount = 0;
         // 移動先に到達する直前まで1マスずつ確認
-        while (checkX != toX || checkY != toY)
+        while ((checkX != toX || checkY != toY) && safetyCount < 10)
         {
+            safetyCount++;
+            if (checkX < 0 || checkX > 8 || checkY < 0 || checkY > 8) break;
             int index = CalcPanelNum(checkX, checkY);
             if (index != -1 && boardData[index] != null)
             {

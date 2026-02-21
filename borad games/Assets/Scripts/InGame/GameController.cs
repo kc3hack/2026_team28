@@ -41,34 +41,24 @@ public class GameController : MonoBehaviour
         
         if(keyboard.fKey.wasPressedThisFrame)
         {
-            // Fキーが押されたときの処理
             Ok();
-            Debug.Log("Fキーが押されました！");
         }
         InputRun(InputOk);
         if(keyboard.fKey.wasReleasedThisFrame)
         {
-            // Fキーが離されたときの処理
             ReleaseOk();
-            Debug.Log("Fキーが離されました！");
         }
 
         if(keyboard.spaceKey.wasPressedThisFrame)
         {
-            // スペースキーが押されたときの処理
             Cancel();
-            Debug.Log("スペースキーが押されました！");
         }
         InputRun(InputCancel);
         if(keyboard.spaceKey.wasReleasedThisFrame)
         {
-            // スペースキーが離されたときの処理
             ReleaseCancel();
-
             //Object.FindFirstObjectByType<PointManager>().AddPoint(10);
             //ポイントをつかする際は上記の文章を書くことで解決する
-
-            Debug.Log("スペースキーが離されました！");
         }
     }
 

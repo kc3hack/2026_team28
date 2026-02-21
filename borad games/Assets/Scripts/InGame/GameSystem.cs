@@ -51,7 +51,6 @@ public class GameSystem : MonoBehaviour
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
                     gameBoard.AllDeactivePanel();
-                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.Player2Turn:
@@ -69,7 +68,6 @@ public class GameSystem : MonoBehaviour
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
                     gameBoard.AllDeactivePanel();
-                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.GameOver:
@@ -87,8 +85,6 @@ public class GameSystem : MonoBehaviour
                 {
                     Debug.Log("引き分け！");
                 }
-                // ゲームをリセットするなどの処理を行う場合はここで行う
-                NextState();
                 sceneManager.GameOver();
                 break;
         }
@@ -111,7 +107,6 @@ public class GameSystem : MonoBehaviour
                 selectedPiece = piece;
                 gameBoard.ActivePanel(GameHelper.CalcPanelNum(x, y)); // 選択した足元を光らせる
                 ShowMovablePanels(selectedPiece); // 移動可能なマスを光らせる
-                Debug.Log($"{piece.type}を選択しました。移動先を選んでください。");
             }
         }
         else
@@ -125,7 +120,6 @@ public class GameSystem : MonoBehaviour
                 {   
                     if(targetPiece.player != selectedPiece.player)
                     {
-                        Debug.Log($"{targetPiece.type} を取りました！");
                         isGameOver = gameBoard.RemovePieceAt(x, y);
                     }
                 }
@@ -138,7 +132,6 @@ public class GameSystem : MonoBehaviour
                 {
                     winner = selectedPiece.player;
                     currentState = GameState.GameOver;
-                    Debug.Log("ゲームオーバー！");
                     return;
                 }
                 selectedPiece = null;
@@ -181,7 +174,6 @@ public class GameSystem : MonoBehaviour
             {
                 return false; // 自分の駒があるので移動できない
             }
-            
         }
         return true;
     }

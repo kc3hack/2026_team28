@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-// using System.Reflection.Metadata.Ecma335;
 
 public class GameCamera : MonoBehaviour
 {
