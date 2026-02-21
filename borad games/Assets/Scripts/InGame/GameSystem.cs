@@ -25,6 +25,8 @@ public class GameSystem : MonoBehaviour
             case GameState.Player1Turn:
                 // プレイヤー1のターンの処理
                 // ターン終了条件を満たしたらプレイヤー2のターンに移行
+                // カーソルを移動させて駒を選択
+                // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
                     NextState();
@@ -33,6 +35,8 @@ public class GameSystem : MonoBehaviour
             case GameState.Player2Turn:
                 // プレイヤー2のターンの処理
                 // ターン終了条件を満たしたらプレイヤー1のターンに移行
+                // カーソルを移動させて駒を選択
+                // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
                     NextState();
