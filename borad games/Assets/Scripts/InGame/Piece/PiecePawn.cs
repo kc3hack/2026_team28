@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PiecePawn : GamePiece
 {
-    
     public override bool CanMove(int toX, int toY)
     {
         int dx = toX - X;

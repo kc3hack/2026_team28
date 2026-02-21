@@ -38,7 +38,6 @@ public class GameBoard : MonoBehaviour
 
             Vector2 location = GameHelper.CalcPanelLocation(x, y);
             panel.transform.localPosition = location;
-            Debug.Log($"{i}: {selectPanelArray[i].name}");
         }
         AllDeactivePanel();
         SetupInitialPieces();
@@ -48,7 +47,6 @@ public class GameBoard : MonoBehaviour
     {
         if(num < 0 || num >= selectPanelArray.Count)
         {
-            Debug.LogError($"Invalid panel number: {num}");
             return;
         }
         selectPanelArray[num].gameObject.SetActive(true);
@@ -67,7 +65,6 @@ public class GameBoard : MonoBehaviour
         int index = GameHelper.CalcPanelNum(x, y);
         return (index != -1 && boardData[index] != null);
     }
-
     void SetupInitialPieces()
     {
         List<PieceSpawnData> layout = CreateLayout();
@@ -91,7 +88,6 @@ public class GameBoard : MonoBehaviour
             {
                 piece.transform.localRotation = Quaternion.Euler(0, 0, 180);
             }
-
             boardData[index] = piece;
         }
     }
