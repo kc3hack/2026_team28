@@ -110,18 +110,13 @@ public class GameSystem : MonoBehaviour
         else
         {
             // --- 駒を移動させるフェーズ ---
-            bool canMove = GameHelper.CanMove(
-                selectedPiece.type, 
-                selectedPiece.player, 
-                selectedPiece.X, selectedPiece.Y, 
-                x, y
-            );
+            bool canMove = selectedPiece.CanMove(x, y);
             if (!canMove)
             {
                 Debug.Log("そこには動けません！");
                 return; // 何もせず入力を待つ（選択は解除しない）
             }
-            if (selectedPiece.type != PieceType.Keima) // 桂馬以外はチェックする
+            if (selectedPiece.type != PieceType.Knight) // 桂馬以外はチェックする
             {
                 if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), selectedPiece.X, selectedPiece.Y, x, y))
                 {

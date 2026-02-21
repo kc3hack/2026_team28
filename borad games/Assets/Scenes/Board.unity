@@ -243,6 +243,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6660292741751571090, guid: e810420a5e5524c979a5d022e7043811, type: 3}
   m_PrefabInstance: {fileID: 103548034}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &114954119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114954120}
+  m_Layer: 0
+  m_Name: Piece
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114954120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114954119}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.00826, y: 0.11345, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &123136250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -553,8 +584,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 521f118181fdd4a888a0e63b44b6c0c7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GamePanel
-  piecePrefab: {fileID: 6698668075774816112, guid: 81bdcd43dd5584578ba5512de61722cf, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::GameBoard
+  pieceMapList:
+  - type: 0
+    prefab: {fileID: 5540687825723701027, guid: 4f3ef0c86802d4892bda4f65dda20e77, type: 3}
+  - type: 1
+    prefab: {fileID: 6569727836742639391, guid: 0f570beac3f104f7b9e385215ff8abaa, type: 3}
+  - type: 2
+    prefab: {fileID: 7849341561914041535, guid: 91da253f401014cb79bf20c89490f02b, type: 3}
+  - type: 3
+    prefab: {fileID: 8716086279166869522, guid: d06cc1cf6b2354d7396c476a436c1b96, type: 3}
+  - type: 4
+    prefab: {fileID: 8920325045625164105, guid: 115f63c64997249eab18dbd237b4d187, type: 3}
+  - type: 5
+    prefab: {fileID: 4450873347923947582, guid: 1ad970374bd1448feb632ede5ce38624, type: 3}
+  - type: 6
+    prefab: {fileID: 107581072249427573, guid: 905788cec3d1f4f8c96c6e0d3edff3fc, type: 3}
+  - type: 7
+    prefab: {fileID: 9077250539528712373, guid: 7f3ec6b3a9b25418f98a600098d82960, type: 3}
 --- !u!1001 &196335404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6358,7 +6405,7 @@ SpriteRenderer:
   m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.33490568, b: 0.33490568, a: 1}
+  m_Color: {r: 0.69711983, g: 1, b: 0.33333337, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6718,3 +6765,4 @@ SceneRoots:
   - {fileID: 1328339826}
   - {fileID: 1928385670}
   - {fileID: 2105441680}
+  - {fileID: 114954120}
