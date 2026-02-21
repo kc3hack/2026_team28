@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,16 +8,31 @@ public class GameCursor : MonoBehaviour
     public int X { get; private set; } = 4;
     public int Y { get; private set; } = 4;
 
+    [SerializeField] private GameSystem gameSystem;
     void Update()
     {
         var keyboard = Keyboard.current;
         if (keyboard == null) return;
 
-        // 上下左右の移動（wasPressedThisFrame で1回ずつ移動）
-        if (keyboard.upArrowKey.wasPressedThisFrame)    Move(1, 0);
-        if (keyboard.downArrowKey.wasPressedThisFrame)  Move(-1, 0);
-        if (keyboard.leftArrowKey.wasPressedThisFrame)  Move(0, -1);
-        if (keyboard.rightArrowKey.wasPressedThisFrame) Move(0, 1);
+        if(gameSystem.IsPlayer1Turn())
+        {
+            // 上下左右の移動（wasPressedThisFrame で1回ずつ移動）
+            if (keyboard.wKey.wasPressedThisFrame)    Move(1, 0);
+            if (keyboard.sKey.wasPressedThisFrame)  Move(-1, 0);
+            if (keyboard.aKey.wasPressedThisFrame)  Move(0, -1);
+            if (keyboard.dKey.wasPressedThisFrame) Move(0, 1);
+        }
+        else
+        {
+            // プレイヤー2のターンの処理
+            // カーソルを移動させて駒を選択
+            if (keyboard.wKey.wasPressedThisFrame)    Move(-1, 0);
+            if (keyboard.sKey.wasPressedThisFrame)  Move(1, 0);
+            if (keyboard.aKey.wasPressedThisFrame)  Move(0, 1);
+            if (keyboard.dKey.wasPressedThisFrame) Move(0, -1);
+
+        }
+        
 
         // 見た目の位置を更新
         UpdatePosition();
