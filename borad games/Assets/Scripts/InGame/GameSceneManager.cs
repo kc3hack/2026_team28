@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // シーン管理
 
-public class GameSeaneManager : MonoBehaviour
+public class GameSceneManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +24,6 @@ public class GameSeaneManager : MonoBehaviour
     public void GameOver()
     {
         // "GameOverScene" という名前のシーンに切り替える
-        SceneManager.LoadScene("GameOverScene");
+        SceneManager.LoadScene("GameOver");
     }
 }
