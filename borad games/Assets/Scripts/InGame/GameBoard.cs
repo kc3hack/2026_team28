@@ -1,6 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+public class PieceSpawnData
+{
+    public int X;
+    public int Y;
+    public PieceType type;
+    public PlayerType player;
+}
 public class GameBoard : MonoBehaviour
 {
     [SerializeField] private GameObject piecePrefab;
@@ -54,48 +60,92 @@ public class GameBoard : MonoBehaviour
 
     void SetupInitialPieces()
     {
-        List<GamePiece> layout = CreateLayout();
-        foreach (GamePiece item in layout)
+        List<PieceSpawnData> layout = CreateLayout();
+        foreach (PieceSpawnData item in layout)
         {
-            // インデックス計算
             int index = GameHelper.CalcPanelNum(item.X, item.Y);
             
-            // 駒を生成
-            GameObject obj = Instantiate(piecePrefab, transform); // 自分の子として生成
+            // ここで本物の駒（MonoBehaviour）を生成する
+            GameObject obj = Instantiate(piecePrefab, transform);
             GamePiece piece = obj.GetComponent<GamePiece>();
             
             // データをセット
             piece.type = item.type;
             piece.player = item.player;
+            piece.X = item.X; // 座標も忘れずにセット
+            piece.Y = item.Y;
             
-            // 位置を反映
             piece.transform.localPosition = GameHelper.CalcPanelLocation(item.X, item.Y);
             
-            // Player2なら180度回転させる
             if (piece.player == PlayerType.Player2)
             {
                 piece.transform.localRotation = Quaternion.Euler(0, 0, 180);
             }
 
-            // 配列で管理
             boardData[index] = piece;
         }
     }
-    public List<GamePiece> CreateLayout()
+    
+    public GamePiece GetPieceAt(int x, int y)
     {
-        List<GamePiece> layout = new List<GamePiece>();
+        int index = GameHelper.CalcPanelNum(x, y);
+        if (index == -1) return null;
+        return boardData[index];
+    }
+
+    public void UpdateBoardData(int fromX, int fromY, int toX, int toY)
+    {
+        int fromIndex = GameHelper.CalcPanelNum(fromX, fromY);
+        int toIndex = GameHelper.CalcPanelNum(toX, toY);
+
+        boardData[toIndex] = boardData[fromIndex];
+        boardData[fromIndex] = null;
+    }
+
+    public GamePiece[] GetBoardData()
+    {
+        return boardData;
+    }
+
+    public List<PieceSpawnData> CreateLayout()
+    {
+        List<PieceSpawnData> layout = new List<PieceSpawnData>();
         // 例：歩 (Fu) を並べる
         for (int i = 0; i < 9; i++)
         {
-            layout.Add(new GamePiece { X = 2, Y = i, type = PieceType.Fu, player = PlayerType.Player1 });
-            layout.Add(new GamePiece { X = 6, Y = i, type = PieceType.Fu, player = PlayerType.Player2 });
+            layout.Add(new PieceSpawnData { X = 2, Y = i, type = PieceType.Fu, player = PlayerType.Player1 });
+            layout.Add(new PieceSpawnData { X = 6, Y = i, type = PieceType.Fu, player = PlayerType.Player2 });
         }
 
         // 玉 (Gyoku)
-        layout.Add(new GamePiece { X = 0, Y = 4, type = PieceType.Gyoku, player = PlayerType.Player1 });
-        layout.Add(new GamePiece { X = 8, Y = 4, type = PieceType.Gyoku, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 0, Y = 4, type = PieceType.Gyoku, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 4, type = PieceType.Gyoku, player = PlayerType.Player2 });
 
         // 他の駒（飛車、角、金、銀...）も同様に Add していきます
+        layout.Add(new PieceSpawnData { X = 1, Y = 7, type = PieceType.Hisha, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 7, Y = 1, type = PieceType.Hisha, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 1, Y = 1, type = PieceType.Kaku, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 7, Y = 7, type = PieceType.Kaku, player = PlayerType.Player2 });
+
+        layout.Add(new PieceSpawnData { X = 0, Y = 3, type = PieceType.Kin, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 0, Y = 5, type = PieceType.Kin, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 3, type = PieceType.Kin, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 5, type = PieceType.Kin, player = PlayerType.Player2 });
+
+        layout.Add(new PieceSpawnData { X = 0, Y = 2, type = PieceType.Gin, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 0, Y = 6, type = PieceType.Gin, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 2, type = PieceType.Gin, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 6, type = PieceType.Gin, player = PlayerType.Player2 });
+
+        layout.Add(new PieceSpawnData { X = 0, Y = 1, type = PieceType.Keima, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 0, Y = 7, type = PieceType.Keima, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 1, type = PieceType.Keima, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 7, type = PieceType.Keima, player = PlayerType.Player2 });
+
+        layout.Add(new PieceSpawnData { X = 0, Y = 0, type = PieceType.Kyosha, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 0, Y = 8, type = PieceType.Kyosha, player = PlayerType.Player1 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 8, type = PieceType.Kyosha, player = PlayerType.Player2 });
+        layout.Add(new PieceSpawnData { X = 8, Y = 0, type = PieceType.Kyosha, player = PlayerType.Player2 });
         return layout;
     }
 }

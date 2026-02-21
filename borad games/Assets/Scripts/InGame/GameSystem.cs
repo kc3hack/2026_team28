@@ -6,9 +6,9 @@ public class GameSystem : MonoBehaviour
 {
     private GameState currentState;
     private GameBoard gameBoard;
+    private GameCursor gameCursor;
+    private GamePiece selectedPiece; // 現在選択されている駒
     [SerializeField] private GameController gameController;
-    int x = 0;
-    int y = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,6 +17,7 @@ public class GameSystem : MonoBehaviour
 
         gameBoard = Object.FindObjectsByType<GameBoard>(FindObjectsSortMode.None)[0];
         
+        gameCursor = Object.FindObjectsByType<GameCursor>(FindObjectsSortMode.None)[0];
     }
 
     // Update is called once per frame
@@ -36,10 +37,7 @@ public class GameSystem : MonoBehaviour
                 // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
-                    int num = GameHelper.CalcPanelNum(x, y);
-                    gameBoard.ActivePanel(num); 
-                    x++;
-                    NextState();
+                    HandlePieceSelection();
                 }
                 break;
             case GameState.Player2Turn:
@@ -49,10 +47,7 @@ public class GameSystem : MonoBehaviour
                 // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
-                    int num = GameHelper.CalcPanelNum(x, y);
-                    gameBoard.ActivePanel(num); 
-                    y++;
-                    NextState();
+                    HandlePieceSelection();
                 }
                 break;
             case GameState.GameOver:
@@ -60,6 +55,71 @@ public class GameSystem : MonoBehaviour
                 NextState();
                 break;
         }
+    }
+
+    void HandlePieceSelection()
+    {
+        int x = gameCursor.X;
+        int y = gameCursor.Y;
+
+        if (selectedPiece == null)
+        {
+            // --- 駒を選択するフェーズ ---
+            GamePiece piece = gameBoard.GetPieceAt(x, y);
+
+            // 自分の駒なら選択
+            if (piece != null && IsMyPiece(piece))
+            {
+                selectedPiece = piece;
+                gameBoard.ActivePanel(GameHelper.CalcPanelNum(x, y)); // 選択した足元を光らせる
+                Debug.Log($"{piece.type}を選択しました。移動先を選んでください。");
+            }
+        }
+        else
+        {
+            // --- 駒を移動させるフェーズ ---
+            bool canMove = GameHelper.CanMove(
+                selectedPiece.type, 
+                selectedPiece.player, 
+                selectedPiece.X, selectedPiece.Y, 
+                x, y
+            );
+            if (!canMove)
+            {
+                Debug.Log("そこには動けません！");
+                return; // 何もせず入力を待つ（選択は解除しない）
+            }
+            GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
+            if (targetPiece != null && targetPiece.player == selectedPiece.player)
+            {
+                Debug.Log("自分の駒がある場所には行けません！");
+                return;
+            }
+            if (selectedPiece.type != PieceType.Keima) // 桂馬以外はチェックする
+            {
+                if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), selectedPiece.X, selectedPiece.Y, x, y))
+                {
+                    Debug.Log("途中に駒があるので飛び越えられません！");
+                    return;
+                }
+            }
+            gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
+
+            selectedPiece.X = x;
+            selectedPiece.Y = y;
+            selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
+
+            selectedPiece = null;
+            gameBoard.AllDeactivePanel();
+            NextState(); // ターン終了
+        }
+    }
+
+    bool IsMyPiece(GamePiece piece)
+    {
+        if (currentState == GameState.Player1Turn && piece.player == PlayerType.Player1) return true;
+        if (currentState == GameState.Player2Turn && piece.player == PlayerType.Player2) return true;
+        return false;
     }
 
     void NextState()
