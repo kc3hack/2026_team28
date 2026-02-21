@@ -3723,7 +3723,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1012036666}
   m_OnClick:
     m_PersistentCalls:
@@ -4938,7 +4938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1532130636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7347,6 +7347,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1992486200}
     m_Modifications:
+    - target: {fileID: 1417094376511000120, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1499438979947207190, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_Name
       value: Player1Panel
