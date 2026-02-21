@@ -1,9 +1,14 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 // ターン管理やゲームの準備を行う
 public class GameSystem : MonoBehaviour
 {
     private GameState currentState;
+    private PlayerType winner; // 勝者のプレイヤータイプを保存する変数
+    private GameBoard gameBoard;
+    private GameCursor gameCursor;
+    private GamePiece selectedPiece; // 現在選択されている駒
     public GameSceneManager sceneManager;
     [SerializeField] private GameController gameController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -11,9 +16,12 @@ public class GameSystem : MonoBehaviour
     {
         //TODO: ゲームの準備
         currentState = GameState.Preparation;
+
+        gameBoard = Object.FindObjectsByType<GameBoard>(FindObjectsSortMode.None)[0];
         //遷移画面の管理
         sceneManager = FindAnyObjectByType<GameSceneManager>();
         
+        gameCursor = Object.FindObjectsByType<GameCursor>(FindObjectsSortMode.None)[0];
     }
 
     // Update is called once per frame
@@ -26,28 +34,172 @@ public class GameSystem : MonoBehaviour
                 DecideTurn();
                 break;
             case GameState.Player1Turn:
+                
                 // プレイヤー1のターンの処理
                 // ターン終了条件を満たしたらプレイヤー2のターンに移行
+                // カーソルを移動させて駒を選択
+                // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
-                    NextState();
+                    HandlePieceSelection();
+                }
+
+                if(gameController.IsCancelTrigger())
+                {
+                    // キャンセル入力があった場合、選択を解除して再度選択させる
+                    selectedPiece = null;
+                    gameBoard.AllDeactivePanel();
+                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.Player2Turn:
                 // プレイヤー2のターンの処理
                 // ターン終了条件を満たしたらプレイヤー1のターンに移行
+                // カーソルを移動させて駒を選択
+                // 駒を移動完了フラグが立ったらターン終了
                 if(gameController.IsOkTrigger())
                 {
-                    NextState();
+                    HandlePieceSelection();
+                }
+
+                if(gameController.IsCancelTrigger())
+                {
+                    // キャンセル入力があった場合、選択を解除して再度選択させる
+                    selectedPiece = null;
+                    gameBoard.AllDeactivePanel();
+                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.GameOver:
                 // ゲームオーバーの処理
+                gameBoard.AllDeactivePanel();
+                if(winner == PlayerType.Player1)
+                {
+                    Debug.Log("プレイヤー1の勝利！");
+                }
+                else if (winner == PlayerType.Player2)
+                {
+                    Debug.Log("プレイヤー2の勝利！");
+                }
+                else
+                {
+                    Debug.Log("引き分け！");
+                }
+                // ゲームをリセットするなどの処理を行う場合はここで行う
                 NextState();
                 sceneManager.GameOver();
                 break;
         }
     }
+
+    void HandlePieceSelection()
+    {
+        int x = gameCursor.X;
+        int y = gameCursor.Y;
+        bool isGameOver = false;
+
+        if (selectedPiece == null)
+        {
+            // --- 駒を選択するフェーズ ---
+            GamePiece piece = gameBoard.GetPieceAt(x, y);
+
+            // 自分の駒なら選択
+            if (piece != null && IsMyPiece(piece))
+            {
+                selectedPiece = piece;
+                gameBoard.ActivePanel(GameHelper.CalcPanelNum(x, y)); // 選択した足元を光らせる
+                ShowMovablePanels(selectedPiece); // 移動可能なマスを光らせる
+                Debug.Log($"{piece.type}を選択しました。移動先を選んでください。");
+            }
+        }
+        else
+        {
+            // --- 駒を移動させるフェーズ ---
+            if (CanPieceMoveTo(selectedPiece, x, y))
+            {
+                // --- 移動成功の処理 ---
+                GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
+                if (targetPiece != null)
+                {   
+                    if(targetPiece.player != selectedPiece.player)
+                    {
+                        Debug.Log($"{targetPiece.type} を取りました！");
+                        isGameOver = gameBoard.RemovePieceAt(x, y);
+                    }
+                }
+                gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
+
+                selectedPiece.X = x;
+                selectedPiece.Y = y;
+                selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
+                if (isGameOver)
+                {
+                    winner = selectedPiece.player;
+                    currentState = GameState.GameOver;
+                    Debug.Log("ゲームオーバー！");
+                    return;
+                }
+                selectedPiece = null;
+                gameBoard.AllDeactivePanel();
+                NextState();
+            }
+            else
+            {
+                Debug.Log("そこには移動できません");
+            }
+        }
+    }
+
+    bool IsMyPiece(GamePiece piece)
+    {
+        if (currentState == GameState.Player1Turn && piece.player == PlayerType.Player1) return true;
+        if (currentState == GameState.Player2Turn && piece.player == PlayerType.Player2) return true;
+        return false;
+    }
+
+    private bool CanPieceMoveTo(GamePiece piece, int targetX, int targetY)
+    {
+        // 基本の動き（各駒の子クラスの CanMove）
+        if (!piece.CanMove(targetX, targetY)) return false;
+
+        // 障害物チェック（桂馬以外）
+        if (piece.type != PieceType.Knight)
+        {
+            if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), piece.X, piece.Y, targetX, targetY))
+            {
+                return false;
+            }
+        }
+
+        // 移動先に自分の駒があるか
+        GamePiece targetPiece = gameBoard.GetPieceAt(targetX, targetY);
+        if (targetPiece != null)
+        {
+            if (targetPiece.player == piece.player)
+            {
+                return false; // 自分の駒があるので移動できない
+            }
+            
+        }
+        return true;
+    }
+
+    void ShowMovablePanels(GamePiece piece)
+    {
+        gameBoard.AllDeactivePanel();
+
+        for (int tx = 0; tx < 9; tx++)
+        {
+            for (int ty = 0; ty < 9; ty++)
+            {
+                if (CanPieceMoveTo(piece, tx, ty))
+                {
+                    gameBoard.ActivePanel(GameHelper.CalcPanelNum(tx, ty));
+                }
+            }
+        }
+    }
+
 
     void NextState()
     {
@@ -81,7 +233,10 @@ public class GameSystem : MonoBehaviour
             Debug.Log("プレイヤー2のターンです！");
         }
     }
+    
 }
+
+    
 
 enum GameState
 {
