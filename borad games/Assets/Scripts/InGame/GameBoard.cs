@@ -107,18 +107,22 @@ public class GameBoard : MonoBehaviour
         return boardData;
     }
 
-    public void RemovePieceAt(int x, int y)
+    public bool RemovePieceAt(int x, int y)
     {
         int index = GameHelper.CalcPanelNum(x, y);
         if (index != -1 && boardData[index] != null)
         {
+            // 消される駒の種類をチェック
+            bool isGyoku = (boardData[index].type == PieceType.Gyoku);
             // 見た目（GameObject）を削除
             Destroy(boardData[index].gameObject);
             // データ（配列）を空にする
             boardData[index] = null;
+            return isGyoku; // 玉が取られたかどうかを返す
         }
+        return false;
     }
-    
+
     public List<PieceSpawnData> CreateLayout()
     {
         List<PieceSpawnData> layout = new List<PieceSpawnData>();

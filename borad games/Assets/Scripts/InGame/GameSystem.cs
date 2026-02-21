@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class GameSystem : MonoBehaviour
 {
     private GameState currentState;
+    private PlayerType winner; // 勝者のプレイヤータイプを保存する変数
     private GameBoard gameBoard;
     private GameCursor gameCursor;
     private GamePiece selectedPiece; // 現在選択されている駒
@@ -44,6 +45,7 @@ public class GameSystem : MonoBehaviour
                 {
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
+                    gameBoard.AllDeactivePanel();
                     Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
@@ -61,11 +63,26 @@ public class GameSystem : MonoBehaviour
                 {
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
+                    gameBoard.AllDeactivePanel();
                     Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.GameOver:
                 // ゲームオーバーの処理
+                gameBoard.AllDeactivePanel();
+                if(winner == PlayerType.Player1)
+                {
+                    Debug.Log("プレイヤー1の勝利！");
+                }
+                else if (winner == PlayerType.Player2)
+                {
+                    Debug.Log("プレイヤー2の勝利！");
+                }
+                else
+                {
+                    Debug.Log("引き分け！");
+                }
+                // ゲームをリセットするなどの処理を行う場合はここで行う
                 NextState();
                 break;
         }
@@ -75,6 +92,7 @@ public class GameSystem : MonoBehaviour
     {
         int x = gameCursor.X;
         int y = gameCursor.Y;
+        bool isGameOver = false;
 
         if (selectedPiece == null)
         {
@@ -122,7 +140,8 @@ public class GameSystem : MonoBehaviour
 
                 // 2. 相手の駒なら、削除する
                 Debug.Log($"{targetPiece.type} を取りました！");
-                gameBoard.RemovePieceAt(x, y);
+                isGameOver = gameBoard.RemovePieceAt(x, y);
+                
             }
             gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
 
@@ -130,7 +149,13 @@ public class GameSystem : MonoBehaviour
             selectedPiece.Y = y;
             selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
 
-            
+            if (isGameOver)
+            {
+                winner = selectedPiece.player;
+                currentState = GameState.GameOver;
+                Debug.Log("ゲームオーバー！");
+                return;
+            }
             selectedPiece = null;
             gameBoard.AllDeactivePanel();
             NextState(); // ターン終了
