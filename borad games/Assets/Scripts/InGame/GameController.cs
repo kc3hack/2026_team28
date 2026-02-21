@@ -3,8 +3,6 @@ using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
-    //お試し
-    public GameSceneManager sceneManager;
     private class InputData
     {
         public bool Continue;  //  コンテニュー入力
@@ -28,8 +26,6 @@ public class GameController : MonoBehaviour
     {
         InputOk = new InputData();
         InputOk.Init();
-        //お試し
-        sceneManager = FindAnyObjectByType<GameSceneManager>();
     }
 
     // Update is called once per frame
@@ -51,14 +47,6 @@ public class GameController : MonoBehaviour
             //Object.FindFirstObjectByType<PointManager>().AddPoint(10);
             //ポイントをつかする際は上記の文章を書くことで解決する
             Debug.Log("スペースキーが離されました！");
-        }
-        if(keyboard.aKey.wasPressedThisFrame)
-        {
-            //aキーが押された際の処理
-            //今回は画面遷移も試すようとして記述する
-            // 57行目の手前に追加
-            // 60行目の手前に入れて、何が空っぽかコンソールに表示させる
-            sceneManager.GameOver();
         }
     }
 

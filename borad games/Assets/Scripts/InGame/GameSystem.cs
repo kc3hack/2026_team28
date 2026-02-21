@@ -4,12 +4,15 @@ using UnityEngine;
 public class GameSystem : MonoBehaviour
 {
     private GameState currentState;
+    public GameSceneManager sceneManager;
     [SerializeField] private GameController gameController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //TODO: ゲームの準備
         currentState = GameState.Preparation;
+        //遷移画面の管理
+        sceneManager = FindAnyObjectByType<GameSceneManager>();
         
     }
 
@@ -41,6 +44,7 @@ public class GameSystem : MonoBehaviour
             case GameState.GameOver:
                 // ゲームオーバーの処理
                 NextState();
+                sceneManager.GameOver();
                 break;
         }
     }
