@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
 
     private InputData InputOk;
     private InputData InputCancel;
+    public GameSceneManager sceneManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
