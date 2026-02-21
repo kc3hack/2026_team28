@@ -85,8 +85,6 @@ public class GameSystem : MonoBehaviour
                 {
                     Debug.Log("引き分け！");
                 }
-                // ゲームをリセットするなどの処理を行う場合はここで行う
-                NextState();
                 sceneManager.GameOver();
                 break;
         }
