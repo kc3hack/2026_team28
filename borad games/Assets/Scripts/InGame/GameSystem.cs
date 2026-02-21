@@ -104,56 +104,45 @@ public class GameSystem : MonoBehaviour
             {
                 selectedPiece = piece;
                 gameBoard.ActivePanel(GameHelper.CalcPanelNum(x, y)); // 選択した足元を光らせる
+                ShowMovablePanels(selectedPiece); // 移動可能なマスを光らせる
                 Debug.Log($"{piece.type}を選択しました。移動先を選んでください。");
             }
         }
         else
         {
             // --- 駒を移動させるフェーズ ---
-            bool canMove = selectedPiece.CanMove(x, y);
-            if (!canMove)
+            if (CanPieceMoveTo(selectedPiece, x, y))
             {
-                Debug.Log("そこには動けません！");
-                return; // 何もせず入力を待つ（選択は解除しない）
-            }
-            if (selectedPiece.type != PieceType.Knight) // 桂馬以外はチェックする
-            {
-                if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), selectedPiece.X, selectedPiece.Y, x, y))
+                // --- 移動成功の処理 ---
+                GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
+                if (targetPiece != null)
+                {   
+                    if(targetPiece.player != selectedPiece.player)
+                    {
+                        Debug.Log($"{targetPiece.type} を取りました！");
+                        isGameOver = gameBoard.RemovePieceAt(x, y);
+                    }
+                }
+                gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
+
+                selectedPiece.X = x;
+                selectedPiece.Y = y;
+                selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
+                if (isGameOver)
                 {
-                    Debug.Log("途中に駒があるので飛び越えられません！");
+                    winner = selectedPiece.player;
+                    currentState = GameState.GameOver;
+                    Debug.Log("ゲームオーバー！");
                     return;
                 }
+                selectedPiece = null;
+                gameBoard.AllDeactivePanel();
+                NextState();
             }
-            GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
-            if (targetPiece != null)
+            else
             {
-                if (targetPiece.player == selectedPiece.player)
-                {
-                    Debug.Log("自分の駒がある場所には行けません！");
-                    return;
-                }
-
-                // 2. 相手の駒なら、削除する
-                Debug.Log($"{targetPiece.type} を取りました！");
-                isGameOver = gameBoard.RemovePieceAt(x, y);
-                
+                Debug.Log("そこには移動できません");
             }
-            gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
-
-            selectedPiece.X = x;
-            selectedPiece.Y = y;
-            selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
-
-            if (isGameOver)
-            {
-                winner = selectedPiece.player;
-                currentState = GameState.GameOver;
-                Debug.Log("ゲームオーバー！");
-                return;
-            }
-            selectedPiece = null;
-            gameBoard.AllDeactivePanel();
-            NextState(); // ターン終了
         }
     }
 
@@ -163,6 +152,50 @@ public class GameSystem : MonoBehaviour
         if (currentState == GameState.Player2Turn && piece.player == PlayerType.Player2) return true;
         return false;
     }
+
+    private bool CanPieceMoveTo(GamePiece piece, int targetX, int targetY)
+    {
+        // 基本の動き（各駒の子クラスの CanMove）
+        if (!piece.CanMove(targetX, targetY)) return false;
+
+        // 障害物チェック（桂馬以外）
+        if (piece.type != PieceType.Knight)
+        {
+            if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), piece.X, piece.Y, targetX, targetY))
+            {
+                return false;
+            }
+        }
+
+        // 移動先に自分の駒があるか
+        GamePiece targetPiece = gameBoard.GetPieceAt(targetX, targetY);
+        if (targetPiece != null)
+        {
+            if (targetPiece.player == piece.player)
+            {
+                return false; // 自分の駒があるので移動できない
+            }
+            
+        }
+        return true;
+    }
+
+    void ShowMovablePanels(GamePiece piece)
+    {
+        gameBoard.AllDeactivePanel();
+
+        for (int tx = 0; tx < 9; tx++)
+        {
+            for (int ty = 0; ty < 9; ty++)
+            {
+                if (CanPieceMoveTo(piece, tx, ty))
+                {
+                    gameBoard.ActivePanel(GameHelper.CalcPanelNum(tx, ty));
+                }
+            }
+        }
+    }
+
 
     void NextState()
     {
