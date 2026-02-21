@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 // ターン管理やゲームの準備を行う
 public class GameSystem : MonoBehaviour
@@ -7,6 +8,7 @@ public class GameSystem : MonoBehaviour
     private GameState currentState;
     private PlayerType winner; // 勝者のプレイヤータイプを保存する変数
     private GameBoard gameBoard;
+    private GameCamera gameCamera;
     private GameCursor gameCursor;
     private GamePiece selectedPiece; // 現在選択されている駒
     public GameSceneManager sceneManager;
@@ -14,10 +16,10 @@ public class GameSystem : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //TODO: ゲームの準備
         currentState = GameState.Preparation;
 
         gameBoard = Object.FindObjectsByType<GameBoard>(FindObjectsSortMode.None)[0];
+        gameCamera = Object.FindObjectsByType<GameCamera>(FindObjectsSortMode.None)[0];
         //遷移画面の管理
         sceneManager = FindAnyObjectByType<GameSceneManager>();
         
@@ -49,7 +51,6 @@ public class GameSystem : MonoBehaviour
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
                     gameBoard.AllDeactivePanel();
-                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.Player2Turn:
@@ -67,7 +68,6 @@ public class GameSystem : MonoBehaviour
                     // キャンセル入力があった場合、選択を解除して再度選択させる
                     selectedPiece = null;
                     gameBoard.AllDeactivePanel();
-                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.GameOver:
@@ -85,8 +85,6 @@ public class GameSystem : MonoBehaviour
                 {
                     Debug.Log("引き分け！");
                 }
-                // ゲームをリセットするなどの処理を行う場合はここで行う
-                NextState();
                 sceneManager.GameOver();
                 break;
         }
@@ -109,7 +107,6 @@ public class GameSystem : MonoBehaviour
                 selectedPiece = piece;
                 gameBoard.ActivePanel(GameHelper.CalcPanelNum(x, y)); // 選択した足元を光らせる
                 ShowMovablePanels(selectedPiece); // 移動可能なマスを光らせる
-                Debug.Log($"{piece.type}を選択しました。移動先を選んでください。");
             }
         }
         else
@@ -123,7 +120,6 @@ public class GameSystem : MonoBehaviour
                 {   
                     if(targetPiece.player != selectedPiece.player)
                     {
-                        Debug.Log($"{targetPiece.type} を取りました！");
                         isGameOver = gameBoard.RemovePieceAt(x, y);
                     }
                 }
@@ -136,7 +132,6 @@ public class GameSystem : MonoBehaviour
                 {
                     winner = selectedPiece.player;
                     currentState = GameState.GameOver;
-                    Debug.Log("ゲームオーバー！");
                     return;
                 }
                 selectedPiece = null;
@@ -179,7 +174,6 @@ public class GameSystem : MonoBehaviour
             {
                 return false; // 自分の駒があるので移動できない
             }
-            
         }
         return true;
     }
@@ -211,10 +205,12 @@ public class GameSystem : MonoBehaviour
             case GameState.Player1Turn:
                 currentState = GameState.Player2Turn;
                 Debug.Log("プレイヤー2にターンが移りました！");
+                gameCamera.RotateToPlayer(PlayerType.Player2);
                 break;
             case GameState.Player2Turn:
                 currentState = GameState.Player1Turn;
                 Debug.Log("プレイヤー1にターンが移りました！");
+                gameCamera.RotateToPlayer(PlayerType.Player1);
                 break;
             case GameState.GameOver:
                 // ゲームオーバーの処理
@@ -228,15 +224,19 @@ public class GameSystem : MonoBehaviour
         if (Random.value < 0.5f)        {
             currentState = GameState.Player1Turn;
             Debug.Log("プレイヤー1のターンです！");
+            gameCamera.RotateToPlayer(PlayerType.Player1);
         } else {
             currentState = GameState.Player2Turn;
             Debug.Log("プレイヤー2のターンです！");
+            gameCamera.RotateToPlayer(PlayerType.Player2);
         }
     }
     
+    public bool IsPlayer1Turn()
+    {
+        return currentState == GameState.Player1Turn;
+    }
 }
-
-    
 
 enum GameState
 {
