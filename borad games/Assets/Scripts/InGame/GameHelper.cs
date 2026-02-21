@@ -31,6 +31,7 @@ public static class GameHelper
         return Location;
     }
 
+    // 添字から座標を取得
     public static void CalcPanelPosition(out int X, out int Y, int Num)
     {
         X = Num % GAME_LOCATION_WIDTH;
