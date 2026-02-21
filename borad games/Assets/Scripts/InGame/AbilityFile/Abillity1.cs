@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Abillity : AbilityManager
+public class Abillity1 : AbilityManager
 {
 
     // ボタンが押された時に実行されるメソッド
