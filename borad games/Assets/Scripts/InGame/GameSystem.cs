@@ -9,6 +9,7 @@ public class GameSystem : MonoBehaviour
     private GameBoard gameBoard;
     private GameCursor gameCursor;
     private GamePiece selectedPiece; // 現在選択されている駒
+    public GameSceneManager sceneManager;
     [SerializeField] private GameController gameController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,6 +18,8 @@ public class GameSystem : MonoBehaviour
         currentState = GameState.Preparation;
 
         gameBoard = Object.FindObjectsByType<GameBoard>(FindObjectsSortMode.None)[0];
+        //遷移画面の管理
+        sceneManager = FindAnyObjectByType<GameSceneManager>();
         
         gameCursor = Object.FindObjectsByType<GameCursor>(FindObjectsSortMode.None)[0];
     }
@@ -84,6 +87,7 @@ public class GameSystem : MonoBehaviour
                 }
                 // ゲームをリセットするなどの処理を行う場合はここで行う
                 NextState();
+                sceneManager.GameOver();
                 break;
         }
     }
