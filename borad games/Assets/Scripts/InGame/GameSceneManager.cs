@@ -26,4 +26,10 @@ public class GameSceneManager : MonoBehaviour
         // "GameOverScene" という名前のシーンに切り替える
         SceneManager.LoadScene("GameOver");
     }
+
+    /*
+    public void sceneManager(String sceneName){
+        SceneManager.LoadScene(sceneName);
+    }
+    */
 }
