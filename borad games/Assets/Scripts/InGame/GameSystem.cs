@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 // ターン管理やゲームの準備を行う
 public class GameSystem : MonoBehaviour
@@ -7,6 +8,7 @@ public class GameSystem : MonoBehaviour
     private GameState currentState;
     private PlayerType winner; // 勝者のプレイヤータイプを保存する変数
     private GameBoard gameBoard;
+    private GameCamera gameCamera;
     private GameCursor gameCursor;
     private GamePiece selectedPiece; // 現在選択されている駒
     public GameSceneManager sceneManager;
@@ -14,10 +16,10 @@ public class GameSystem : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //TODO: ゲームの準備
         currentState = GameState.Preparation;
 
         gameBoard = Object.FindObjectsByType<GameBoard>(FindObjectsSortMode.None)[0];
+        gameCamera = Object.FindObjectsByType<GameCamera>(FindObjectsSortMode.None)[0];
         //遷移画面の管理
         sceneManager = FindAnyObjectByType<GameSceneManager>();
         
@@ -211,10 +213,12 @@ public class GameSystem : MonoBehaviour
             case GameState.Player1Turn:
                 currentState = GameState.Player2Turn;
                 Debug.Log("プレイヤー2にターンが移りました！");
+                gameCamera.RotateToPlayer(PlayerType.Player2);
                 break;
             case GameState.Player2Turn:
                 currentState = GameState.Player1Turn;
                 Debug.Log("プレイヤー1にターンが移りました！");
+                gameCamera.RotateToPlayer(PlayerType.Player1);
                 break;
             case GameState.GameOver:
                 // ゲームオーバーの処理
@@ -228,15 +232,19 @@ public class GameSystem : MonoBehaviour
         if (Random.value < 0.5f)        {
             currentState = GameState.Player1Turn;
             Debug.Log("プレイヤー1のターンです！");
+            gameCamera.RotateToPlayer(PlayerType.Player1);
         } else {
             currentState = GameState.Player2Turn;
             Debug.Log("プレイヤー2のターンです！");
+            gameCamera.RotateToPlayer(PlayerType.Player2);
         }
     }
     
+    public bool IsPlayer1Turn()
+    {
+        return currentState == GameState.Player1Turn;
+    }
 }
-
-    
 
 enum GameState
 {
