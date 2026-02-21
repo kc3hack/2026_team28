@@ -39,6 +39,13 @@ public class GameSystem : MonoBehaviour
                 {
                     HandlePieceSelection();
                 }
+
+                if(gameController.IsCancelTrigger())
+                {
+                    // キャンセル入力があった場合、選択を解除して再度選択させる
+                    selectedPiece = null;
+                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
+                }
                 break;
             case GameState.Player2Turn:
                 // プレイヤー2のターンの処理
@@ -48,6 +55,13 @@ public class GameSystem : MonoBehaviour
                 if(gameController.IsOkTrigger())
                 {
                     HandlePieceSelection();
+                }
+
+                if(gameController.IsCancelTrigger())
+                {
+                    // キャンセル入力があった場合、選択を解除して再度選択させる
+                    selectedPiece = null;
+                    Debug.Log("選択をキャンセルしました。もう一度駒を選んでください。");
                 }
                 break;
             case GameState.GameOver:
@@ -89,12 +103,6 @@ public class GameSystem : MonoBehaviour
                 Debug.Log("そこには動けません！");
                 return; // 何もせず入力を待つ（選択は解除しない）
             }
-            GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
-            if (targetPiece != null && targetPiece.player == selectedPiece.player)
-            {
-                Debug.Log("自分の駒がある場所には行けません！");
-                return;
-            }
             if (selectedPiece.type != PieceType.Keima) // 桂馬以外はチェックする
             {
                 if (GameHelper.IsPathBlocked(gameBoard.GetBoardData(), selectedPiece.X, selectedPiece.Y, x, y))
@@ -103,12 +111,26 @@ public class GameSystem : MonoBehaviour
                     return;
                 }
             }
+            GamePiece targetPiece = gameBoard.GetPieceAt(x, y);
+            if (targetPiece != null)
+            {
+                if (targetPiece.player == selectedPiece.player)
+                {
+                    Debug.Log("自分の駒がある場所には行けません！");
+                    return;
+                }
+
+                // 2. 相手の駒なら、削除する
+                Debug.Log($"{targetPiece.type} を取りました！");
+                gameBoard.RemovePieceAt(x, y);
+            }
             gameBoard.UpdateBoardData(selectedPiece.X, selectedPiece.Y, x, y);
 
             selectedPiece.X = x;
             selectedPiece.Y = y;
             selectedPiece.MoveTo(GameHelper.CalcPanelLocation(x, y));
 
+            
             selectedPiece = null;
             gameBoard.AllDeactivePanel();
             NextState(); // ターン終了
