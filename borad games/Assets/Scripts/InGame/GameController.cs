@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         {
             // スペースキーが離されたときの処理
             ReleaseOk();
+            Object.FindFirstObjectByType<PointManager>().AddPoint(10);
             Debug.Log("スペースキーが離されました！");
         }
     }

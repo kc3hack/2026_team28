@@ -2308,6 +2308,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6660292741751571090, guid: e810420a5e5524c979a5d022e7043811, type: 3}
   m_PrefabInstance: {fileID: 653446893}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &667498149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667498151}
+  - component: {fileID: 667498150}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &667498150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667498149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d26fd1c9693416588474c88d85ad74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointManager
+  scoreText: {fileID: 1346855261}
+--- !u!4 &667498151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667498149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 363.20367, y: 26.2747, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &680382704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4017,6 +4062,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337007378}
   m_CullTransparentMesh: 1
+--- !u!114 &1346855261 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+  m_PrefabInstance: {fileID: 7047827614690425599}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &1348405012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6619,6 +6675,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 4505956234521369780, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_Name
+      value: PointText
+      objectReference: {fileID: 0}
     - target: {fileID: 4915135408703030183, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6699,6 +6759,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+    - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+    - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6715,3 +6791,4 @@ SceneRoots:
   - {fileID: 165876871}
   - {fileID: 1928385670}
   - {fileID: 1992486200}
+  - {fileID: 667498151}
