@@ -21,11 +21,17 @@ public class GameController : MonoBehaviour
     };
 
     private InputData InputOk;
+    private InputData InputCancel;
+    public GameSceneManager sceneManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         InputOk = new InputData();
         InputOk.Init();
+        InputCancel = new InputData();
+        InputCancel.Init();
+        //お試し
+        sceneManager = FindAnyObjectByType<GameSceneManager>();
     }
 
     // Update is called once per frame
@@ -33,18 +39,26 @@ public class GameController : MonoBehaviour
     {
         var keyboard = Keyboard.current;
         
-        if(keyboard.spaceKey.wasPressedThisFrame)
+        if(keyboard.fKey.wasPressedThisFrame)
         {
-            // スペースキーが押されたときの処理
             Ok();
-            Debug.Log("スペースキーが押されました！");
         }
         InputRun(InputOk);
+        if(keyboard.fKey.wasReleasedThisFrame)
+        {
+            ReleaseOk();
+        }
+
+        if(keyboard.spaceKey.wasPressedThisFrame)
+        {
+            Cancel();
+        }
+        InputRun(InputCancel);
         if(keyboard.spaceKey.wasReleasedThisFrame)
         {
-            // スペースキーが離されたときの処理
-            ReleaseOk();
-            Debug.Log("スペースキーが離されました！");
+            ReleaseCancel();
+            //Object.FindFirstObjectByType<PointManager>().AddPoint(10);
+            //ポイントをつかする際は上記の文章を書くことで解決する
         }
     }
 
@@ -64,8 +78,8 @@ public class GameController : MonoBehaviour
         {
             InputData.Trigger = false;
         }
-            InputData.BeforeContinue = InputData.Continue;
-        }
+        InputData.BeforeContinue = InputData.Continue;
+    }
 
     //  入力リリース
     void InputRelease(InputData InputData)
@@ -95,4 +109,26 @@ public class GameController : MonoBehaviour
     {
         return InputOk.Trigger;
     }
+
+    public void Cancel()
+    {
+        InputBegin(InputCancel);
+    }
+
+    public void ReleaseCancel()
+    {
+        InputRelease(InputCancel);
+    }
+
+    public bool IsCancel()
+    {
+        return InputCancel.Continue;
+    }
+
+    //  キャンセル入力のトリガ
+    public bool IsCancelTrigger()
+    {        
+        return InputCancel.Trigger;    
+    }
+
 }

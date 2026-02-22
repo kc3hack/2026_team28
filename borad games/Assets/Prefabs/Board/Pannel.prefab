@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6660292741751571090}
-  - component: {fileID: 230401773239998578}
+  - component: {fileID: 1755478967307005103}
   - component: {fileID: 7754420555681641224}
   m_Layer: 0
   m_Name: Pannel
@@ -28,12 +28,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &230401773239998578
+--- !u!212 &1755478967307005103
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -80,10 +80,10 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6981132, g: 0.29734907, b: 0.055980783, a: 1}
+  m_Sprite: {fileID: -6537549325236948136, guid: 98b1cc48839744c4abbca6b0ec95d026, type: 3}
+  m_Color: {r: 0.5080404, g: 0.9245283, b: 0.3532396, a: 0.8352941}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

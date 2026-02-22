@@ -31,11 +31,43 @@ public static class GameHelper
         return Location;
     }
 
+    // 添字から座標を取得
     public static void CalcPanelPosition(out int X, out int Y, int Num)
     {
         X = Num % GAME_LOCATION_WIDTH;
         Y = Num / GAME_LOCATION_WIDTH;
     }
-    
 
+    public static bool IsPathBlocked(GamePiece[] boardData, int fromX, int fromY, int toX, int toY)
+    {
+        int dx = toX - fromX;
+        int dy = toY - fromY;
+
+        // 1マスの移動なら、途中のマスは存在しないのでブロックされない
+        if (Mathf.Abs(dx) <= 1 && Mathf.Abs(dy) <= 1) return false;
+
+        // 進む方向を特定（1, 0, -1 のいずれかになる）
+        int stepX = System.Math.Sign(dx);
+        int stepY = System.Math.Sign(dy);
+
+        int checkX = fromX + stepX;
+        int checkY = fromY + stepY;
+        int safetyCount = 0;
+        // 移動先に到達する直前まで1マスずつ確認
+        while ((checkX != toX || checkY != toY) && safetyCount < 10)
+        {
+            safetyCount++;
+            if (checkX < 0 || checkX > 8 || checkY < 0 || checkY > 8) break;
+            int index = CalcPanelNum(checkX, checkY);
+            if (index != -1 && boardData[index] != null)
+            {
+                return true; // 途中に駒があった！
+            }
+
+            checkX += stepX;
+            checkY += stepY;
+        }
+
+        return false; // 途中に駒はなかった
+    }
 }
