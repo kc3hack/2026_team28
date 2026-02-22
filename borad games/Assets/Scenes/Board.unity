@@ -554,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521f118181fdd4a888a0e63b44b6c0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameBoard
+  AbilityOnOff: 0
   pieceMapList:
   - type: 0
     prefab: {fileID: 5540687825723701027, guid: 4f3ef0c86802d4892bda4f65dda20e77, type: 3}
@@ -2038,6 +2039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74ebd427442c42d489420adf06a4077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ability2
+  gameBoard: {fileID: 0}
 --- !u!1 &412033334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,6 +2759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33afff5587636442995bcd057eae38c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Abillity
+  gameBoard: {fileID: 0}
 --- !u!1001 &590748428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6983,9 +6986,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ability
+  m_text: "\u80FD\u529B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -7052,7 +7055,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1758006492
@@ -7443,9 +7446,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ability
+  m_text: "\u80FD\u529B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -7512,7 +7515,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1843644520
