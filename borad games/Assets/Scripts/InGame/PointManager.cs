@@ -29,7 +29,7 @@ public class PointManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Score: {_currentPoint}";
+            scoreText.text = $"ポイント: {_currentPoint}";
         }
     }
 

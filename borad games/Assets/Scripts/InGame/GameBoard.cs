@@ -117,7 +117,6 @@ public class GameBoard : MonoBehaviour
 
     public void ChangeAbilityOnOff(int i){
         AbilityOnOff = i;
-        Debug.Log("0→1");
     }
 
     public bool RemovePieceAt(int x, int y)

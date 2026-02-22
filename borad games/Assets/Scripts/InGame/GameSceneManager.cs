@@ -27,6 +27,11 @@ public class GameSceneManager : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
+    public void PlayGame(){
+        SceneManager.LoadScene("Board");
+        Debug.Log("ゲームスタート");
+    }
+
     /*
     public void sceneManager(String sceneName){
         SceneManager.LoadScene(sceneName);

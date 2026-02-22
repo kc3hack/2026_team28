@@ -7309,7 +7309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ability
+  m_text: "\u80FD\u529B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
   m_sharedMaterial: {fileID: 6755379500816233061, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
@@ -7910,10 +7910,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'POINT : 0'
+  m_text: "\u30DD\u30A4\u30F3\u30C8: 0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
+  m_sharedMaterial: {fileID: 6755379500816233061, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8897,9 +8897,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_text
+      value: "\u30DD\u30A4\u30F3\u30C8: 0"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+      objectReference: {fileID: 11400000, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
     - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_isRightToLeft
       value: 0
@@ -8907,10 +8911,14 @@ PrefabInstance:
     - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+      objectReference: {fileID: 6755379500816233061, guid: a5ea774865e3d43cbba4f2a9c3ed2e12, type: 2}
     - target: {fileID: 7911835750497813863, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616742879133304331, guid: 19f8b6f0dad8a4c4ba36fcf4e329b190, type: 3}
+      propertyPath: m_text
+      value: "\u80FD\u529B"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
